@@ -1,0 +1,20 @@
+{
+  "name": "naxios",
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "release": "pnpm run build && changeset publish",
+    "format": "prettier --write .",
+    "lint": "tsc"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.6",
+    "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  }
+}

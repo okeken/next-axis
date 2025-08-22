@@ -1,4 +1,9 @@
 # next-axis — Next.js-native `fetch` with Axios-level DX
+[![npm](https://img.shields.io/npm/v/next-axis?color=%2300b894&label=next-axis)](https://www.npmjs.com/package/next-axis)
+[![size](https://img.shields.io/bundlephobia/minzip/next-axis)](https://bundlephobia.com/package/next-axis)
+![types](https://img.shields.io/badge/types-included-blue)
+![deps](https://img.shields.io/badge/dependencies-0-brightgreen)
+[![license](https://img.shields.io/npm/l/next-axis)](./LICENSE)
 
 > **Axios DX without losing Next.js caching.**
 > A tiny, zero-dependency HTTP client built on platform `fetch` that preserves **`next: { revalidate, tags }`**, request memoization, and Edge compatibility—while giving you the ergonomics you actually want.

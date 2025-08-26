@@ -196,6 +196,13 @@ export function createHttp(init: RequestConfig = {}): HttpClient {
 }
 
 const http = createHttp();
+
+export {
+  type HttpClient,
+  type HttpError,
+  type HttpResponse,
+  type Method,
+  type RequestConfig,
+}
 export default http;
 
-http.interceptors.response.use((r)=>r, (e)=>e)

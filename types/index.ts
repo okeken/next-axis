@@ -36,7 +36,6 @@ export type HttpError<T = any, D = any> = Error & {
   toJSON(): any;
 };
 
-export type Interceptor<T> = (v: T) => T | Promise<T>;
 
 export type HttpClient = {
   defaults: RequestConfig;

@@ -1,22 +1,52 @@
 import type {
   HttpError,
   HttpResponse,
-  Interceptor,
   RequestConfig,
 } from "../types";
 
+
+
+export type OnFulfilled<T> = (value: T) => T | Promise<T>;
+export type OnRejected = (error: any) => any | Promise<any>;
+
+type Handler<T> = { onFulfilled?: OnFulfilled<T>; onRejected?: OnRejected; };
+
 export class Interceptors<T> {
-  private list: (Interceptor<T> | undefined)[] = [];
-  use(fn: Interceptor<T>) {
-    const id = this.list.push(fn) - 1;
-    return id;
+  private handlers: (Handler<T> | null)[] = [];
+
+ 
+  use(onFulfilled?: OnFulfilled<T>, onRejected?: OnRejected): number {
+    this.handlers.push({ onFulfilled, onRejected });
+    return this.handlers.length - 1;
   }
+
   eject(id: number) {
-    this.list[id] = undefined;
+    if (this.handlers[id]) this.handlers[id] = null;
   }
-  async run(v: T) {
-    for (const fn of this.list) if (fn) v = await fn(v);
-    return v;
+
+
+  async runFulfilled(input: T): Promise<T> {
+    let out: any = input;
+    for (const h of this.handlers) {
+      if (!h?.onFulfilled) continue;
+      out = await h.onFulfilled(out);
+    }
+    return out as T;
+  }
+
+
+  async runRejected(error: any): Promise<any> {
+    let err = error;
+    for (const h of this.handlers) {
+      if (!h?.onRejected) continue;
+      try {
+     
+        return await h.onRejected(err);
+      } catch (next) {
+        err = next;
+      }
+    }
+    throw err;
   }
 }
 

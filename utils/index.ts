@@ -25,10 +25,15 @@ const isAbs = (u: string) => /^https?:\/\//i.test(u);
 export const toHeaders = (h?: HeadersInit) =>
   h instanceof Headers ? h : new Headers(h ?? {});
 
-export const combine = (base: string, rel: string) =>
-  isAbs(rel)
-    ? rel
-    : new URL(rel, base.endsWith("/") ? base : base + "/").toString();
+export const combine = (base: string, rel: string) => {
+  if (!rel) return base;
+  if (isAbs(rel)) return rel;
+
+
+  const cleanBase = base.endsWith("/") ? base : base + "/";
+  const cleanRel  = rel.replace(/^\/+/, ""); 
+  return new URL(cleanRel, cleanBase).toString();
+};
 
 export function makeError<T, D>(
   msg: string,
